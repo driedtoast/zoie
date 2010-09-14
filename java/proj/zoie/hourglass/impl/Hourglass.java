@@ -368,15 +368,15 @@ public class Hourglass<R extends IndexReader, V> implements IndexReaderFactory<Z
     {
       log.info("begin consolidate ... ");
       long b4 = System.currentTimeMillis();
-      SimpleFSDirectory target = (SimpleFSDirectory) archived.get(0).directory();
+      NIOFSDirectory target = (NIOFSDirectory) archived.get(0).directory();
       log.info("into: "+target.getFile().getAbsolutePath());
-      SimpleFSDirectory sources[] = new SimpleFSDirectory[archived.size()-1];
+      NIOFSDirectory sources[] = new NIOFSDirectory[archived.size()-1];
       IndexSignature sigs[] = new IndexSignature[archived.size()];
       sigs[0] = _dirMgrFactory.getIndexSignature(target.getFile()); // the target index signature
       log.info("target version: " + sigs[0].getVersion());
       for(int i=1; i<archived.size(); i++)
       {
-        sources[i-1] = (SimpleFSDirectory) archived.get(i).directory();
+        sources[i-1] = (NIOFSDirectory) archived.get(i).directory();
         sigs[i] = _dirMgrFactory.getIndexSignature(sources[i-1].getFile());  // get other index signatures
         log.info("from: " + sources[i-1].getFile().getAbsolutePath());
       }
@@ -403,7 +403,7 @@ public class Hourglass<R extends IndexReader, V> implements IndexReaderFactory<Z
           {
             idxWriter.close();
             // remove the originals from disk
-            for(SimpleFSDirectory dir : sources)
+            for(NIOFSDirectory dir : sources)
             {
               IndexSignature sig = _dirMgrFactory.getIndexSignature(dir.getFile());
               log.info(dir.getFile() + "---" + (dir.getFile().exists()?" not deleted ":" deleted") + " version: " + sig.getVersion());
