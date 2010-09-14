@@ -23,6 +23,7 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriter.MaxFieldLength;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.LockObtainFailedException;
+import org.apache.lucene.store.NIOFSDirectory;
 import org.apache.lucene.store.SimpleFSDirectory;
 
 import proj.zoie.api.DataConsumer;
@@ -336,7 +337,7 @@ public class Hourglass<R extends IndexReader, V> implements IndexReaderFactory<Z
       Calendar threshold = hg._scheduler.getTrimTime(now);
       for(int i=0; i<toRemove.size(); i++)
       {
-        SimpleFSDirectory dir = (SimpleFSDirectory) toRemove.get(i).directory();
+    	  NIOFSDirectory  dir = (NIOFSDirectory) toRemove.get(i).directory();
         String path = dir.getFile().getName();
         Calendar archivetime = null;
         try

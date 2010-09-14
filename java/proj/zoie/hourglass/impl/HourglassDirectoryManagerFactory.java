@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.NIOFSDirectory;
 import org.apache.lucene.store.SimpleFSDirectory;
 
 import proj.zoie.api.DefaultDirectoryManager;
@@ -143,7 +144,7 @@ public class HourglassDirectoryManagerFactory
       { // don't add the current one
         try
         {
-          list.add(new SimpleFSDirectory(file));
+          list.add(new NIOFSDirectory(file));
         } catch (IOException e)
         {
           log.error("potential index corruption", e);
